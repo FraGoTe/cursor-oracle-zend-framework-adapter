@@ -7,7 +7,7 @@ require_once 'Zend/Db/Adapter/Oracle.php';
 
 class Zend_Db_Adapter_Cds extends Zend_Db_Adapter_Oracle
 {
-    public function fetchCursor($sql, $bind = array())
+    public function fetchCursor($sql, $bind = array(), $mode = OCI_COMMIT_ON_SUCCESS)
     {
         $data = array();
         $conn = $this->getConnection();
@@ -20,12 +20,12 @@ class Zend_Db_Adapter_Cds extends Zend_Db_Adapter_Oracle
             oci_bind_by_name($stmt, $key, $val, -1, OCI_ASSOC);
         }
 
-        oci_execute($stmt);
+        oci_execute($stmt, $this->_getExecuteMode());
         if ($e = oci_error($stmt)) {
             throw new Zend_Db_Adapter_Oracle_Exception($e, -1234);
         }
         
-        oci_execute($curs);
+        oci_execute($curs, $this->_getExecuteMode());
         if (oci_fetch_all($curs, $data, 0, -1, OCI_FETCHSTATEMENT_BY_ROW)) {
             ;//var_dump($data);
         }
