@@ -82,7 +82,7 @@ class Zend_Db_Adapter_Cds extends Zend_Db_Adapter_Oracle
         
         foreach ($cursorsName as $key => $cursorName) {
             oci_execute($cursor[$key], $executeMode);
-            if (oci_fetch_all($cursor[$key], $data[], 0, -1, OCI_FETCHSTATEMENT_BY_ROW)) {
+            if (oci_fetch_all($cursor[$key], $data[$cursorName], 0, -1, OCI_FETCHSTATEMENT_BY_ROW)) {
                 ;//var_dump($data);
             }
             
